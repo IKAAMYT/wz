@@ -17,6 +17,7 @@ jobs:
       uses: microsoft/setup-msbuild@v2
  
     - name: Build Release x64
+      shell: cmd
       run: |
         if exist "*.sln" (
           msbuild *.sln /p:Configuration=Release /p:Platform=x64 /m
