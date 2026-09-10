@@ -19,11 +19,18 @@ jobs:
     - name: Build Release x64
       shell: cmd
       run: |
-        if exist "*.sln" (
-          msbuild *.sln /p:Configuration=Release /p:Platform=x64 /m
-        ) else if exist "*.vcxproj" (
-          msbuild *.vcxproj /p:Configuration=Release /p:Platform=x64 /m
+        for /r . %%f in (*.vcxproj) do (
+          echo Building %%f
+          msbuild "%%f" /p:Configuration=Release /p:Platform=x64 /m
+          exit /b 0
         )
+        for /r . %%f in (*.sln) do (
+          echo Building %%f
+          msbuild "%%f" /p:Configuration=Release /p:Platform=x64 /m
+          exit /b 0
+        )
+        echo No project found
+        exit /b 1
  
     - name: Find and upload executable
       uses: actions/upload-artifact@v4
@@ -44,4 +51,3 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
- 
