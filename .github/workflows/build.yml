@@ -32,12 +32,16 @@ jobs:
         echo No project found
         exit /b 1
  
+    - name: List all files
+      shell: cmd
+      run: dir /s /b *.exe *.dll *.lib || echo No binaries found
+      continue-on-error: true
+ 
     - name: Find and upload executable
       uses: actions/upload-artifact@v4
       with:
-        name: warzone-offsets-x64
-        path: |
-          **/*.exe
+        name: warzone-build
+        path: .
       continue-on-error: true
  
     - name: Create Release
