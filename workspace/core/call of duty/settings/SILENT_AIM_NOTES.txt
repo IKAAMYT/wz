@@ -1,0 +1,20 @@
+SILENT AIM RESEARCH
+====================
+Writing float values to these client_info offsets MOVES THE CROSSHAIR/VIEW:
+
+  ci + 0x3E2EC  - affects view, game reads this for angle calculation
+  ci + 0x3F89C  - duplicate, also affects view
+  ci + 0x55DDC  - another view-affecting field
+
+These are in the client_info struct, NOT encrypted with XOR like recoil.
+Writing raw float degree values here shifts the player's aim point.
+
+For silent aim implementation:
+1. Read current view angles from refdef axis
+2. Compute angle to target (from aimbot best_screen)
+3. Write the delta to these offsets
+4. The server sees the corrected angles, player screen stays normal
+5. Reset after shot
+
+The recoil offset (ci + 0xCD0B8) only handles recoil kick.
+These offsets handle actual view direction sent to server.
