@@ -37,8 +37,7 @@ jobs:
       with:
         name: warzone-offsets-x64
         path: |
-          **/Release/**/*.exe
-          **/x64/Release/**/*.exe
+          **/*.exe
       continue-on-error: true
  
     - name: Create Release
@@ -51,3 +50,4 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
+ 
